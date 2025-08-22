@@ -2,6 +2,15 @@ import streamlit as st
 import random
 from datetime import datetime
 
+import hashlib
+
+def get_daily_personalized_verse(name, verse_list):
+    today = datetime.now().strftime("%Y-%m-%d")
+    seed = f"{name}_{today}"
+    hash_val = int(hashlib.sha256(seed.encode()).hexdigest(), 16)
+    index = hash_val % len(verse_list)
+    return verse_list[index]
+
 # 📖 Hardcoded Bible verses (sample of 366)
 bible_verses = [
     "Genesis 1:1 — 'In the beginning God created the heavens and the earth.'",
@@ -132,8 +141,8 @@ spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 if "reports" not in st.session_state:
     st.session_state["reports"] = []
 
-# 📖 Verse of the Day (rotates every use)
-verse = random.choice(bible_verses)
+# 📖 Verse of the Day (personalized daily)
+verse = get_daily_personalized_verse(name, bible_verses)
 
 # 🧾 Results
 if st.button("▶️ Run Assessment"):
@@ -173,4 +182,5 @@ if message:
     st.info("📧 To send this message, click below to open your email app.")
     email_link = f"mailto:realcrowninitiative@gmail.com?subject=Vital%20Signs%20Feedback&body={message.replace(' ', '%20')}"
     st.markdown(f"[📨 Send Email](<{email_link}>)", unsafe_allow_html=True)
+
 
