@@ -132,9 +132,8 @@ spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 if "reports" not in st.session_state:
     st.session_state["reports"] = []
 
-# 📖 Verse of the Day (rotates daily)
-verse_index = datetime.now().timetuple().tm_yday % len(bible_verses)
-verse = bible_verses[verse_index]
+# 📖 Verse of the Day (rotates every use)
+verse = random.choice(bible_verses)
 
 # 🧾 Results
 if st.button("▶️ Run Assessment"):
@@ -174,3 +173,4 @@ if message:
     st.info("📧 To send this message, click below to open your email app.")
     email_link = f"mailto:realcrowninitiative@gmail.com?subject=Vital%20Signs%20Feedback&body={message.replace(' ', '%20')}"
     st.markdown(f"[📨 Send Email](<{email_link}>)", unsafe_allow_html=True)
+
