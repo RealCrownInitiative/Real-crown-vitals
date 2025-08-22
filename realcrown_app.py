@@ -1,6 +1,8 @@
 import streamlit as st
 import random
 from datetime import datetime
+from fpdf import FPDF
+import io
 
 # 📖 Load verses
 def load_verses(file_path="bible_verses.txt"):
@@ -58,16 +60,27 @@ def assess_spo2(spo2):
     status = "Normal" if spo2 >= 95 else "Low"
     return f"🫁 Oxygen Saturation: {spo2}% — {status}"
 
+# 📄 PDF generation
+def generate_pdf(text):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.set_font("Arial", size=12)
+    for line in text.split('\n'):
+        pdf.multi_cell(0, 10, line)
+    buffer = io.BytesIO()
+    pdf.output(buffer)
+    buffer.seek(0)
+    return buffer
+
 # 🩺 Interface
 st.set_page_config(page_title="RealCrown Vital Signs", layout="centered")
 st.title("🩺 RealCrown Vital Signs Assessment")
 st.markdown("Developed by **Sseguya Stephen Jonathan** | Powered by **Real Crown Initiative**")
 st.markdown("---")
 
-# 🧑 Name input
-name = st.text_input("Your Name:", placeholder="Enter your full name")
-
 # 🔢 Inputs
+name = st.text_input("Your Name:", placeholder="Enter your full name")
 age_group = st.selectbox("Age Group:", ["child", "adolescent", "adult"])
 weight = st.number_input("Weight (kg):", min_value=10.0, max_value=200.0)
 height = st.number_input("Height (m):", min_value=0.5, max_value=2.5)
@@ -80,15 +93,20 @@ pulse = st.number_input("Heart Rate (bpm):", min_value=30, max_value=200)
 temp = st.number_input("Body Temperature (°C):", min_value=30.0, max_value=45.0)
 spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 
+# 🧠 Initialize memory
+if "reports" not in st.session_state:
+    st.session_state["reports"] = []
+    st.session_state["current_index"] = -1
+
+# ⏮️ Navigation buttons
+col1, col2, col3 = st.columns(3)
+run = col1.button("▶️ Run Assessment")
+prev = col2.button("⬅️ Previous")
+next = col3.button("➡️ Next")
+
 # 📖 Verse of the Day
 bible_verses = load_verses()
 verse = random.choice(bible_verses)
-
-# ▶️ Buttons
-col1, col2, col3 = st.columns(3)
-run = col1.button("▶️ Run Assessment")
-clear = col2.button("🧹 Clear")
-save = col3.button("💾 Save")
 
 # 🧾 Results
 if run:
@@ -115,13 +133,30 @@ if run:
     full_report = "\n".join(results)
     if reflection:
         full_report += f"\n\n🙏 Reflection:\n{reflection}"
+    full_report += f"\n\n📖 Verse of the Day:\n{verse}"
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
-    st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
+    st.download_button("📥 Download Report (.txt)", full_report, file_name="realcrown_assessment.txt")
 
-    if save:
-        st.session_state["saved_report"] = full_report
-        st.success("✅ Report saved in session memory.")
+    pdf_buffer = generate_pdf(full_report)
+    st.download_button("📄 Export as PDF", data=pdf_buffer, file_name="realcrown_assessment.pdf", mime="application/pdf")
 
-if clear:
+    if st.button("💾 Save This Assessment"):
+        st.session_state["reports"].append(full_report)
+        st.session_state["current_index"] = len(st.session_state["reports"]) - 1
+        st.success("✅ Assessment saved. Ready for new input.")
+        st.experimental_rerun()
+
+# 🔄 Navigation
+if prev and st.session_state["current_index"] > 0:
+    st.session_state["current_index"] -= 1
     st.experimental_rerun()
+
+if next and st.session_state["current_index"] < len(st.session_state["reports"]) - 1:
+    st.session_state["current_index"] += 1
+    st.experimental_rerun()
+
+# 📄 Show saved report
+if st.session_state["current_index"] >= 0:
+    st.markdown("## 📄 Saved Assessment")
+    st.text_area("Report Preview:", value=st.session_state["reports"][st.session_state["current_index"]], height=300)
