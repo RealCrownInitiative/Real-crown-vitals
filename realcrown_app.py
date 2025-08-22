@@ -238,6 +238,37 @@ st.markdown(f"""
 </a>
 </div>
 """, unsafe_allow_html=True)
+import streamlit as st
+from st_supabase_connection import SupabaseConnection
+from datetime import datetime
+
+# Connect to Supabase
+conn = st.connection("supabase", type=SupabaseConnection)
+
+# Input fields for vitals
+bmi = st.number_input("BMI", min_value=10.0, max_value=50.0)
+bp_systolic = st.number_input("Systolic BP", min_value=80, max_value=200)
+bp_diastolic = st.number_input("Diastolic BP", min_value=50, max_value=130)
+heart_rate = st.number_input("Heart Rate", min_value=40, max_value=180)
+temperature = st.number_input("Temperature (°C)", min_value=35.0, max_value=42.0)
+spo2 = st.number_input("SpO₂ (%)", min_value=70, max_value=100)
+blood_sugar = st.number_input("Blood Sugar (mg/dL)", min_value=50, max_value=300)
+
+# Submit button
+if st.button("Submit Assessment"):
+    data = {
+        "timestamp": datetime.now().isoformat(),
+        "bmi": bmi,
+        "bp_systolic": bp_systolic,
+        "bp_diastolic": bp_diastolic,
+        "heart_rate": heart_rate,
+        "temperature": temperature,
+        "spo2": spo2,
+        "blood_sugar": blood_sugar
+    }
+    response = conn.table("assessments").insert(data).execute()
+    st.success("Vitals submitted to 'assessments' successfully!")
+
 
 
 
