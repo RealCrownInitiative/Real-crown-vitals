@@ -2,21 +2,14 @@ import streamlit as st
 import random
 from datetime import datetime
 
+# 📖 Load verses
 def load_verses(file_path="bible_verses.txt"):
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
-        
-# 📖 Bible verses
-bible_verses = [
-    "3 John 1:2 — 'Beloved, I pray that you may prosper in all things and be in health, just as your soul prospers.'",
-    "Jeremiah 30:17 — 'For I will restore health to you and heal you of your wounds,' says the Lord.",
-    "Proverbs 17:22 — 'A cheerful heart is good medicine, but a crushed spirit dries up the bones.'",
-    "Isaiah 40:31 — 'But those who hope in the Lord will renew their strength.'",
-    "Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"
-]
+
 # 🧠 Assessment functions
 def assess_bmi(weight, height, age):
     bmi = weight / (height ** 2)
@@ -71,6 +64,9 @@ st.title("🩺 RealCrown Vital Signs Assessment")
 st.markdown("Developed by **Sseguya Stephen Jonathan** | Powered by **Real Crown Initiative**")
 st.markdown("---")
 
+# 🧑 Name input
+name = st.text_input("Your Name:", placeholder="Enter your full name")
+
 # 🔢 Inputs
 age_group = st.selectbox("Age Group:", ["child", "adolescent", "adult"])
 weight = st.number_input("Weight (kg):", min_value=10.0, max_value=200.0)
@@ -84,9 +80,20 @@ pulse = st.number_input("Heart Rate (bpm):", min_value=30, max_value=200)
 temp = st.number_input("Body Temperature (°C):", min_value=30.0, max_value=45.0)
 spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 
-# ▶️ Run Assessment
-if st.button("Run Assessment"):
+# 📖 Verse of the Day
+bible_verses = load_verses()
+verse = random.choice(bible_verses)
+
+# ▶️ Buttons
+col1, col2, col3 = st.columns(3)
+run = col1.button("▶️ Run Assessment")
+clear = col2.button("🧹 Clear")
+save = col3.button("💾 Save")
+
+# 🧾 Results
+if run:
     results = []
+    results.append(f"👤 Name: {name}")
     results.append(assess_bmi(weight, height, age_group))
     results.append(assess_blood_pressure(systolic, diastolic, age_group))
     results.append(assess_blood_sugar(sugar, sugar_unit, sugar_type, age_group))
@@ -94,24 +101,17 @@ if st.button("Run Assessment"):
     results.append(assess_temperature(temp))
     results.append(assess_spo2(spo2))
 
-import random
+    st.markdown("## 📖 Verse of the Day")
+    st.markdown(f"> {verse}")
 
-bible_verses = load_verses()
-verse = random.choice(bible_verses)
-
-st.markdown("## 📖 Verse of the Day")
-st.markdown(f"> {verse}")
-
-
-st.markdown("## 🧾 Assessment Summary")
-for section in results:
-    st.markdown(section)
+    st.markdown("## 🧾 Assessment Summary")
+    for section in results:
+        st.markdown(section)
 
     st.markdown("---")
     st.markdown("### 🙏 Reflection or Prayer")
     reflection = st.text_area("Write your thoughts here:", placeholder="Speak life, hope, and healing...")
 
-    # 📥 Downloadable report
     full_report = "\n".join(results)
     if reflection:
         full_report += f"\n\n🙏 Reflection:\n{reflection}"
@@ -119,9 +119,9 @@ for section in results:
 
     st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
 
+    if save:
+        st.session_state["saved_report"] = full_report
+        st.success("✅ Report saved in session memory.")
 
-
-
-
-
-
+if clear:
+    st.experimental_rerun()
