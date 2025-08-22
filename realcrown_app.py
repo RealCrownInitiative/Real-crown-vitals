@@ -9,15 +9,6 @@ def load_verses(file_path="bible_verses.txt"):
     except FileNotFoundError:
         return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
 
-# 📖 Bible verses
-bible_verses = [
-    "3 John 1:2 — 'Beloved, I pray that you may prosper in all things and be in health, just as your soul prospers.'",
-    "Jeremiah 30:17 — 'For I will restore health to you and heal you of your wounds,' says the Lord.",
-    "Proverbs 17:22 — 'A cheerful heart is good medicine, but a crushed spirit dries up the bones.'",
-    "Isaiah 40:31 — 'But those who hope in the Lord will renew their strength.'",
-    "Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"
-]
-
 # 🧠 Assessment functions
 def assess_bmi(weight, height, age):
     bmi = weight / (height ** 2)
@@ -119,5 +110,6 @@ st.markdown(f"> {verse}")
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
+
 
 
