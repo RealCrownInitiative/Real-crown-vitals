@@ -86,8 +86,6 @@ if "reports" not in st.session_state:
 # 📖 Verse of the Day
 bible_verses = load_verses()
 verse = random.choice(bible_verses)
-st.markdown("## 📖 Verse of the Day")
-st.markdown(f"> {verse}")
 
 # 🧾 Results
 if st.button("▶️ Run Assessment"):
@@ -125,4 +123,5 @@ message = st.text_area("Write your message or feedback here (optional):", placeh
 
 if message:
     st.info("📧 To send this message, please email it to: **realcrowninitiative@gmail.com**")
+
 
