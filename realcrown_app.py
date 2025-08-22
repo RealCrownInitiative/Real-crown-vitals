@@ -229,13 +229,6 @@ if message:
     email_link = f"mailto:realcrowninitiative@gmail.com?subject=Vital%20Signs%20Feedback&body={message.replace(' ', '%20')}"
     st.markdown(f"[📨 Send Email](<{email_link}>)", unsafe_allow_html=True)
 
-st.markdown("---")
-st.markdown("""
-<div style='background-color:#f0f8ff; padding:10px; border-radius:5px; text-align:center; font-size:14px'>
-📢 <strong>Join Real Crown Telegram & WhatsApp Groups</strong> — Stay inspired, stay connected. 💬
-</div>
-""", unsafe_allow_html=True)
-
 bottom_banner = random.choice(bottom_banners)
 st.markdown("---")
 st.markdown(f"""
@@ -245,6 +238,7 @@ st.markdown(f"""
 </a>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
