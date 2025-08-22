@@ -2,6 +2,36 @@ import streamlit as st
 import random
 from datetime import datetime
 
+import random
+
+import random
+
+top_banners = [
+    {
+        "text": "💬 Join International Evangelical Bridge on WhatsApp",
+        "link": "https://chat.whatsapp.com/DCdQKGJaaJS9Ma3ZRjBoj7?mode=ems_copy_t",
+        "color": "#e0f7fa"
+    },
+    {
+        "text": "📢 Follow Real Crown Initiative Channel on WhatsApp",
+        "link": "https://whatsapp.com/channel/0029Va8t5Vi0rGiEeODxy91E",
+        "color": "#f1f8e9"
+    }
+]
+
+bottom_banners = [
+    {
+        "text": "📘 Like Real Crown Initiative on Facebook",
+        "link": "https://www.facebook.com/share/1CKMWYarLS/",
+        "color": "#e3f2fd"
+    },
+    {
+        "text": "🎥 Follow Real Crown on TikTok for inspiration",
+        "link": "https://www.tiktok.com/@realcrown3?_t=ZM-8z5WI2Rs9VV&_r=1",
+        "color": "#fff3e0"
+    }
+]
+
 import hashlib
 
 def get_daily_personalized_verse(name, verse_list):
@@ -128,20 +158,14 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-import random
-
-top_banners = [
-    {
-        "text": "💬 Join International Evangelical Bridge on WhatsApp",
-        "link": "https://chat.whatsapp.com/DCdQKGJaaJS9Ma3ZRjBoj7?mode=ems_copy_t",
-        "color": "#e0f7fa"
-    },
-    {
-        "text": "📢 Follow Real Crown Initiative Channel on WhatsApp",
-        "link": "https://whatsapp.com/channel/0029Va8t5Vi0rGiEeODxy91E",
-        "color": "#f1f8e9"
-    }
-]
+top_banner = random.choice(top_banners)
+st.markdown(f"""
+<div style='background-color:{top_banner["color"]}; padding:10px; border-radius:5px; text-align:center; font-size:14px'>
+<a href="{top_banner["link"]}" target="_blank" style="text-decoration:none; color:black;">
+<strong>{top_banner["text"]}</strong>
+</a>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown("---")
 
@@ -212,18 +236,18 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-bottom_banners = [
-    {
-        "text": "📘 Like Real Crown Initiative on Facebook",
-        "link": "https://www.facebook.com/share/1CKMWYarLS/",
-        "color": "#e3f2fd"
-    },
-    {
-        "text": "🎥 Follow Real Crown on TikTok for inspiration",
-        "link": "https://www.tiktok.com/@realcrown3?_t=ZM-8z5WI2Rs9VV&_r=1",
-        "color": "#fff3e0"
-    }
-]
+bottom_banner = random.choice(bottom_banners)
+st.markdown("---")
+st.markdown(f"""
+<div style='background-color:{bottom_banner["color"]}; padding:10px; border-radius:5px; text-align:center; font-size:14px'>
+<a href="{bottom_banner["link"]}" target="_blank" style="text-decoration:none; color:black;">
+<strong>{bottom_banner["text"]}</strong>
+</a>
+</div>
+""", unsafe_allow_html=True)
+
+
+
 
 
 
