@@ -128,6 +128,21 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+import random
+
+top_banners = [
+    {
+        "text": "💬 Join International Evangelical Bridge on WhatsApp",
+        "link": "https://chat.whatsapp.com/DCdQKGJaaJS9Ma3ZRjBoj7?mode=ems_copy_t",
+        "color": "#e0f7fa"
+    },
+    {
+        "text": "📢 Follow Real Crown Initiative Channel on WhatsApp",
+        "link": "https://whatsapp.com/channel/0029Va8t5Vi0rGiEeODxy91E",
+        "color": "#f1f8e9"
+    }
+]
+
 st.markdown("---")
 
 # 🔢 Inputs
@@ -196,6 +211,21 @@ st.markdown("""
 📢 <strong>Join Real Crown Telegram & WhatsApp Groups</strong> — Stay inspired, stay connected. 💬
 </div>
 """, unsafe_allow_html=True)
+
+bottom_banners = [
+    {
+        "text": "📘 Like Real Crown Initiative on Facebook",
+        "link": "https://www.facebook.com/share/1CKMWYarLS/",
+        "color": "#e3f2fd"
+    },
+    {
+        "text": "🎥 Follow Real Crown on TikTok for inspiration",
+        "link": "https://www.tiktok.com/@realcrown3?_t=ZM-8z5WI2Rs9VV&_r=1",
+        "color": "#fff3e0"
+    }
+]
+
+
 
 
 
