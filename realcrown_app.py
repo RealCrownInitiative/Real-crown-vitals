@@ -2,6 +2,13 @@ import streamlit as st
 import random
 from datetime import datetime
 
+def load_verses(file_path="bible_verses.txt"):
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
+
 # 📖 Bible verses
 bible_verses = [
     "3 John 1:2 — 'Beloved, I pray that you may prosper in all things and be in health, just as your soul prospers.'",
@@ -88,8 +95,14 @@ if st.button("Run Assessment"):
     results.append(assess_temperature(temp))
     results.append(assess_spo2(spo2))
 
-    verse = random.choice(bible_verses)
-    results.append(f"📖 **Bible Verse of the Day**\n> {verse}")
+import random
+
+bible_verses = load_verses()
+verse = random.choice(bible_verses)
+
+st.markdown("## 📖 Verse of the Day")
+st.markdown(f"> {verse}")
+
 
     st.markdown("## 🧾 Assessment Summary")
     for section in results:
@@ -106,4 +119,5 @@ if st.button("Run Assessment"):
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
+
 
