@@ -3,9 +3,11 @@ import random
 from datetime import datetime
 
 # 📖 Load verses
+import os
 def load_verses(file_path="bible_verses.txt"):
+    full_path = os.path.join(os.path.dirname(__file__), file_path)
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(full_path, "r", encoding="utf-8") as f:
             return [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
@@ -123,5 +125,6 @@ message = st.text_area("Write your message or feedback here (optional):", placeh
 
 if message:
     st.info("📧 To send this message, please email it to: **realcrowninitiative@gmail.com**")
+
 
 
