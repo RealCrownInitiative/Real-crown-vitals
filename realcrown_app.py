@@ -129,16 +129,8 @@ if run:
         st.success("✅ Assessment saved. Ready for new input.")
         st.experimental_rerun()
 
-# 🔄 Navigation
-if prev and st.session_state["current_index"] > 0:
-    st.session_state["current_index"] -= 1
-    st.experimental_rerun()
-
-if next and st.session_state["current_index"] < len(st.session_state["reports"]) - 1:
-    st.session_state["current_index"] += 1
-    st.experimental_rerun()
-
 # 📄 Show saved report
 if st.session_state["current_index"] >= 0:
     st.markdown("## 📄 Saved Assessment")
     st.text_area("Report Preview:", value=st.session_state["reports"][st.session_state["current_index"]], height=300)
+
