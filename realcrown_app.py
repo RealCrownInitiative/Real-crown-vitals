@@ -102,9 +102,10 @@ verse = random.choice(bible_verses)
 st.markdown("## 📖 Verse of the Day")
 st.markdown(f"> {verse}")
 
-    st.markdown("## 🧾 Assessment Summary")
-    for section in results:
-        st.markdown(section)
+
+st.markdown("## 🧾 Assessment Summary")
+for section in results:
+    st.markdown(section)
 
     st.markdown("---")
     st.markdown("### 🙏 Reflection or Prayer")
@@ -117,6 +118,7 @@ st.markdown(f"> {verse}")
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
+
 
 
 
