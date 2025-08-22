@@ -1,6 +1,3 @@
-from st_supabase_connection import SupabaseConnection
-conn = st.connection("supabase", type=SupabaseConnection)
-
 import streamlit as st
 import random
 from datetime import datetime
@@ -271,6 +268,7 @@ if st.button("Submit Assessment"):
     }
     response = conn.table("assessments").insert(data).execute()
     st.success("Vitals submitted to 'assessments' successfully!")
+
 
 
 
