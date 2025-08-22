@@ -121,6 +121,13 @@ st.set_page_config(page_title="RealCrown Vital Signs", layout="centered")
 st.title("🩺 RealCrown Vital Signs Assessment")
 st.markdown("Developed by **Sseguya Stephen Jonathan** | Powered by **Real Crown Initiative**")
 st.markdown("📞 Developer Contact: +256788739050")
+
+st.markdown("""
+<div style='background-color:#f0f8ff; padding:10px; border-radius:5px; text-align:center; font-size:14px'>
+📢 <strong>Sponsored by Real Crown Cyber House</strong> — Empowering communities through health, tech & faith.
+</div>
+""", unsafe_allow_html=True)
+
 st.markdown("---")
 
 # 🔢 Inputs
@@ -182,5 +189,14 @@ if message:
     st.info("📧 To send this message, click below to open your email app.")
     email_link = f"mailto:realcrowninitiative@gmail.com?subject=Vital%20Signs%20Feedback&body={message.replace(' ', '%20')}"
     st.markdown(f"[📨 Send Email](<{email_link}>)", unsafe_allow_html=True)
+
+st.markdown("---")
+st.markdown("""
+<div style='background-color:#f0f8ff; padding:10px; border-radius:5px; text-align:center; font-size:14px'>
+📢 <strong>Join Real Crown Telegram & WhatsApp Groups</strong> — Stay inspired, stay connected. 💬
+</div>
+""", unsafe_allow_html=True)
+
+
 
 
