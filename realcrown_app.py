@@ -8,6 +8,7 @@ def load_verses(file_path="bible_verses.txt"):
             return [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
+        
 # 📖 Bible verses
 bible_verses = [
     "3 John 1:2 — 'Beloved, I pray that you may prosper in all things and be in health, just as your soul prospers.'",
@@ -117,6 +118,7 @@ st.markdown(f"> {verse}")
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     st.download_button("📥 Download Report", full_report, file_name="realcrown_assessment.txt")
+
 
 
 
