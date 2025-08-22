@@ -1,8 +1,6 @@
 import streamlit as st
 import random
 from datetime import datetime
-from fpdf import FPDF
-import io
 
 # 📖 Load verses
 def load_verses(file_path="bible_verses.txt"):
@@ -59,19 +57,6 @@ def assess_temperature(temp):
 def assess_spo2(spo2):
     status = "Normal" if spo2 >= 95 else "Low"
     return f"🫁 Oxygen Saturation: {spo2}% — {status}"
-
-# 📄 PDF generation
-def generate_pdf(text):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.set_font("Arial", size=12)
-    for line in text.split('\n'):
-        pdf.multi_cell(0, 10, line)
-    buffer = io.BytesIO()
-    pdf.output(buffer)
-    buffer.seek(0)
-    return buffer
 
 # 🩺 Interface
 st.set_page_config(page_title="RealCrown Vital Signs", layout="centered")
@@ -137,9 +122,6 @@ if run:
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
     st.download_button("📥 Download Report (.txt)", full_report, file_name="realcrown_assessment.txt")
-
-    pdf_buffer = generate_pdf(full_report)
-    st.download_button("📄 Export as PDF", data=pdf_buffer, file_name="realcrown_assessment.pdf", mime="application/pdf")
 
     if st.button("💾 Save This Assessment"):
         st.session_state["reports"].append(full_report)
