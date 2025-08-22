@@ -62,6 +62,7 @@ def assess_spo2(spo2):
 st.set_page_config(page_title="RealCrown Vital Signs", layout="centered")
 st.title("🩺 RealCrown Vital Signs Assessment")
 st.markdown("Developed by **Sseguya Stephen Jonathan** | Powered by **Real Crown Initiative**")
+st.markdown("📞 Developer Contact: +256788739050")
 st.markdown("---")
 
 # 🔢 Inputs
@@ -81,20 +82,13 @@ spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 # 🧠 Initialize memory
 if "reports" not in st.session_state:
     st.session_state["reports"] = []
-    st.session_state["current_index"] = -1
-
-# ⏮️ Navigation buttons
-col1, col2, col3 = st.columns(3)
-run = col1.button("▶️ Run Assessment")
-prev = col2.button("⬅️ Previous")
-next = col3.button("➡️ Next")
 
 # 📖 Verse of the Day
 bible_verses = load_verses()
 verse = random.choice(bible_verses)
 
 # 🧾 Results
-if run:
+if st.button("▶️ Run Assessment"):
     results = []
     results.append(f"👤 Name: {name}")
     results.append(assess_bmi(weight, height, age_group))
@@ -111,13 +105,7 @@ if run:
     for section in results:
         st.markdown(section)
 
-    st.markdown("---")
-    st.markdown("### 🙏 Reflection or Prayer")
-    reflection = st.text_area("Write your thoughts here:", placeholder="Speak life, hope, and healing...")
-
     full_report = "\n".join(results)
-    if reflection:
-        full_report += f"\n\n🙏 Reflection:\n{reflection}"
     full_report += f"\n\n📖 Verse of the Day:\n{verse}"
     full_report += f"\n\n🕒 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
@@ -125,12 +113,13 @@ if run:
 
     if st.button("💾 Save This Assessment"):
         st.session_state["reports"].append(full_report)
-        st.session_state["current_index"] = len(st.session_state["reports"]) - 1
         st.success("✅ Assessment saved. Ready for new input.")
         st.experimental_rerun()
 
-# 📄 Show saved report
-if st.session_state["current_index"] >= 0:
-    st.markdown("## 📄 Saved Assessment")
-    st.text_area("Report Preview:", value=st.session_state["reports"][st.session_state["current_index"]], height=300)
+# 📧 Optional Message Box
+st.markdown("---")
+st.markdown("### 💬 Optional Message to Real Crown Initiative")
+message = st.text_area("Write your message or feedback here (optional):", placeholder="You can share your thoughts or request follow-up...")
 
+if message:
+    st.info("📧 To send this message, please email it to: **realcrowninitiative@gmail.com**")
