@@ -2,15 +2,62 @@ import streamlit as st
 import random
 from datetime import datetime
 
-# 📖 Load verses
-import os
-def load_verses(file_path="bible_verses.txt"):
-    full_path = os.path.join(os.path.dirname(__file__), file_path)
-    try:
-        with open(full_path, "r", encoding="utf-8") as f:
-            return [line.strip() for line in f if line.strip()]
-    except FileNotFoundError:
-        return ["Psalm 147:3 — 'He heals the brokenhearted and binds up their wounds.'"]
+# 📖 Hardcoded Bible verses (sample of 366)
+bible_verses = [
+    "Genesis 1:1 — 'In the beginning God created the heavens and the earth.'",
+    "Exodus 15:26 — 'I am the Lord who heals you.'",
+    "Leviticus 19:18 — 'Love your neighbor as yourself.'",
+    "Numbers 6:24 — 'The Lord bless you and keep you.'",
+    "Deuteronomy 31:6 — 'Be strong and courageous. Do not be afraid.'",
+    "Joshua 1:9 — 'Do not be discouraged, for the Lord your God will be with you wherever you go.'",
+    "Psalm 23:1 — 'The Lord is my shepherd; I shall not want.'",
+    "Psalm 34:18 — 'The Lord is close to the brokenhearted.'",
+    "Psalm 91:1 — 'He who dwells in the shelter of the Most High will rest in the shadow of the Almighty.'",
+    "Proverbs 3:5 — 'Trust in the Lord with all your heart.'",
+    "Proverbs 17:22 — 'A cheerful heart is good medicine.'",
+    "Isaiah 40:31 — 'Those who hope in the Lord will renew their strength.'",
+    "Isaiah 41:10 — 'Do not fear, for I am with you.'",
+    "Jeremiah 29:11 — 'For I know the plans I have for you,' declares the Lord.",
+    "Jeremiah 30:17 — 'I will restore you to health and heal your wounds.'",
+    "Lamentations 3:22 — 'His compassions never fail.'",
+    "Ezekiel 36:26 — 'I will give you a new heart and put a new spirit in you.'",
+    "Daniel 12:3 — 'Those who lead many to righteousness will shine like the stars.'",
+    "Hosea 6:1 — 'He has torn us, but He will heal us.'",
+    "Joel 2:25 — 'I will restore to you the years the locusts have eaten.'",
+    "Amos 5:24 — 'Let justice roll on like a river.'",
+    "Micah 6:8 — 'Act justly, love mercy, walk humbly with your God.'",
+    "Nahum 1:7 — 'The Lord is good, a refuge in times of trouble.'",
+    "Habakkuk 3:19 — 'The Sovereign Lord is my strength.'",
+    "Zephaniah 3:17 — 'He will rejoice over you with singing.'",
+    "Zechariah 4:6 — 'Not by might nor by power, but by My Spirit.'",
+    "Malachi 4:2 — 'The sun of righteousness will rise with healing in its rays.'",
+    "Matthew 5:14 — 'You are the light of the world.'",
+    "Matthew 6:33 — 'Seek first the kingdom of God.'",
+    "Matthew 11:28 — 'Come to Me, all who are weary.'",
+    "Matthew 28:20 — 'I am with you always.'",
+    "Mark 11:24 — 'Whatever you ask for in prayer, believe that you have received it.'",
+    "Luke 1:37 — 'Nothing is impossible with God.'",
+    "Luke 12:7 — 'Even the hairs of your head are all numbered.'",
+    "John 3:16 — 'For God so loved the world...'",
+    "John 8:12 — 'I am the light of the world.'",
+    "John 14:27 — 'Peace I leave with you; My peace I give you.'",
+    "Acts 2:21 — 'Everyone who calls on the name of the Lord will be saved.'",
+    "Romans 8:28 — 'In all things God works for the good of those who love Him.'",
+    "Romans 12:2 — 'Be transformed by the renewing of your mind.'",
+    "1 Corinthians 13:13 — 'Faith, hope, and love. But the greatest of these is love.'",
+    "2 Corinthians 5:7 — 'We live by faith, not by sight.'",
+    "Galatians 6:9 — 'Do not grow weary in doing good.'",
+    "Ephesians 2:10 — 'We are God’s handiwork.'",
+    "Philippians 4:13 — 'I can do all things through Christ.'",
+    "Colossians 3:23 — 'Work at it with all your heart.'",
+    "1 Thessalonians 5:16 — 'Rejoice always.'",
+    "2 Timothy 1:7 — 'God gave us a spirit of power, love, and self-discipline.'",
+    "Hebrews 11:1 — 'Faith is being sure of what we hope for.'",
+    "James 1:5 — 'If any of you lacks wisdom, ask God.'",
+    "1 Peter 5:7 — 'Cast all your anxiety on Him.'",
+    "Revelation 21:4 — 'He will wipe every tear from their eyes.'",
+    # Add more verses here to reach 366 total
+]
 
 # 🧠 Assessment functions
 def assess_bmi(weight, height, age):
@@ -85,9 +132,9 @@ spo2 = st.number_input("Oxygen Saturation (%):", min_value=50, max_value=100)
 if "reports" not in st.session_state:
     st.session_state["reports"] = []
 
-# 📖 Verse of the Day
-bible_verses = load_verses()
-verse = random.choice(bible_verses)
+# 📖 Verse of the Day (rotates daily)
+verse_index = datetime.now().timetuple().tm_yday % len(bible_verses)
+verse = bible_verses[verse_index]
 
 # 🧾 Results
 if st.button("▶️ Run Assessment"):
@@ -124,7 +171,6 @@ st.markdown("### 💬 Optional Message to Real Crown Initiative")
 message = st.text_area("Write your message or feedback here (optional):", placeholder="You can share your thoughts or request follow-up...")
 
 if message:
-    st.info("📧 To send this message, please email it to: **realcrowninitiative@gmail.com**")
-
-
-
+    st.info("📧 To send this message, click below to open your email app.")
+    email_link = f"mailto:realcrowninitiative@gmail.com?subject=Vital%20Signs%20Feedback&body={message.replace(' ', '%20')}"
+    st.markdown(f"[📨 Send Email](<{email_link}>)", unsafe_allow_html=True)
